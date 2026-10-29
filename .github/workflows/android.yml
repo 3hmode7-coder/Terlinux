@@ -1,12 +1,10 @@
-name: Build AndLinux APK
+name: Build Terlinux APK
 
 on:
   workflow_dispatch:
   push:
     branches:
       - main
-    paths:
-      - '.github/workflows/android.yml'
 
 jobs:
   build-release:
@@ -33,10 +31,10 @@ jobs:
       - name: Prepare APK artifact
         run: |
           mkdir -p artifacts
-          cp app/build/outputs/apk/Fdroid/release/*.apk artifacts/Andlinux.apk
+          cp app/build/outputs/apk/Fdroid/release/*.apk artifacts/Terlinux.apk
 
       - name: Archive APK
         uses: actions/upload-artifact@v4
         with:
-          name: Andlinux-apk
-          path: artifacts/Andlinux.apk
+          name: Terlinux-apk
+          path: artifacts/Terlinux.apk

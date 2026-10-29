@@ -15,7 +15,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rk.application"
+    namespace = "com.terlinux"
     compileSdk = 36
 
     dependenciesInfo {
@@ -64,7 +64,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.term.andlinux"
+        applicationId = "com.terlinux"
         minSdk = 26
         targetSdk = 28
         versionCode = 13

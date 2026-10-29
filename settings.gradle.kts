@@ -33,7 +33,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AndLinux"
+rootProject.name = "Terlinux"
 include(":app")
 include(":core:main")
 
