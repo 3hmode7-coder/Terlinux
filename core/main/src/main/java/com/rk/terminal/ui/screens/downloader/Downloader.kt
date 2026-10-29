@@ -29,7 +29,7 @@ import java.util.regex.Pattern
  * Pulls three things on first launch:
  *  - libtalloc.so.2  (needed by proot)
  *  - proot           (the user-space syscall translator)
- *  - alpine.tar.gz   (the Alpine Linux minirootfs)
+ *  - ubuntu.tar.gz   (the Ubuntu Base arm64 rootfs)
  *
  * For the Alpine rootfs we always resolve the latest stable release at runtime
  * from https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/<arch>/ by
@@ -53,18 +53,15 @@ fun Downloader(
 
     LaunchedEffect(Unit) {
         try {
-            val abi = Build.SUPPORTED_ABIS.firstOrNull { it in abiMap }
-                ?: throw RuntimeException("Unsupported CPU: ${Build.SUPPORTED_ABIS.joinToString()}")
+            val abi = Build.SUPPORTED_ABIS.firstOrNull { it == "arm64-v8a" }
+                ?: throw RuntimeException("Terlinux supports arm64-v8a devices only")
 
             val abiUrls = abiMap[abi]!!
-            val resolvedAlpineUrl = withContext(Dispatchers.IO) {
-                resolveLatestAlpineMinirootfsUrl(abiUrls.alpineDir, abiUrls.alpineArch)
-            }
 
             val filesToDownload = listOf(
                 "libtalloc.so.2" to abiUrls.talloc,
                 "proot" to abiUrls.proot,
-                "alpine.tar.gz" to resolvedAlpineUrl
+                "ubuntu.tar.gz" to abiUrls.ubuntuUrl
             ).map { (name, url) -> DownloadFile(url, Rootfs.andLinux.child(name)) }
 
             needsDownload = filesToDownload.any { !it.outputFile.exists() }
@@ -256,27 +253,13 @@ private fun compareVersions(a: List<Int>, b: List<Int>): Int {
 private data class AbiUrls(
     val talloc: String,
     val proot: String,
-    val alpineDir: String,
-    val alpineArch: String,
+    val ubuntuUrl: String,
 )
 
 private val abiMap = mapOf(
-    "x86_64" to AbiUrls(
-        talloc = "https://raw.githubusercontent.com/Xed-Editor/Karbon-PackagesX/main/x86_64/libtalloc.so.2",
-        proot = "https://raw.githubusercontent.com/Xed-Editor/Karbon-PackagesX/main/x86_64/proot",
-        alpineDir = "https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases",
-        alpineArch = "x86_64"
-    ),
     "arm64-v8a" to AbiUrls(
         talloc = "https://raw.githubusercontent.com/Xed-Editor/Karbon-PackagesX/main/aarch64/libtalloc.so.2",
         proot = "https://raw.githubusercontent.com/Xed-Editor/Karbon-PackagesX/main/aarch64/proot",
-        alpineDir = "https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases",
-        alpineArch = "aarch64"
-    ),
-    "armeabi-v7a" to AbiUrls(
-        talloc = "https://raw.githubusercontent.com/Xed-Editor/Karbon-PackagesX/main/arm/libtalloc.so.2",
-        proot = "https://raw.githubusercontent.com/Xed-Editor/Karbon-PackagesX/main/arm/proot",
-        alpineDir = "https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases",
-        alpineArch = "armhf"
+        ubuntuUrl = "https://cdimage.ubuntu.com/ubuntu-base/releases/26.04/release/ubuntu-base-26.04.1-base-arm64.tar.gz"
     )
 )

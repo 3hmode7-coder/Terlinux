@@ -8,9 +8,9 @@ private fun getFilesDir(): File{
         // Fallback only used very early during process init. Keep it in sync with the
         // actual applicationId declared in app/build.gradle.kts (and its .debug suffix).
         if (BuildConfig.DEBUG){
-            File("/data/data/com.term.andlinux.debug/files")
+            File("/data/data/com.term.terlinux.debug/files")
         }else{
-            File("/data/data/com.term.andlinux/files")
+            File("/data/data/com.term.terlinux/files")
         }
     }else{
         application!!.filesDir
@@ -25,16 +25,16 @@ fun localDir(): File {
     }
 }
 
-fun alpineDir(): File{
-    return localDir().child("alpine").also {
+fun ubuntuDir(): File{
+    return localDir().child("ubuntu").also {
         if (!it.exists()) {
             it.mkdirs()
         }
     }
 }
 
-fun alpineHomeDir(): File{
-    return alpineDir().child("root").also {
+fun ubuntuHomeDir(): File{
+    return ubuntuDir().child("root").also {
         if (!it.exists()) {
             it.mkdirs()
         }

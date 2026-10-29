@@ -13,7 +13,7 @@ import android.provider.DocumentsContract
 import android.provider.DocumentsProvider
 import android.util.Log
 import android.webkit.MimeTypeMap
-import com.rk.libcommons.alpineHomeDir
+import com.rk.libcommons.ubuntuHomeDir
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -28,7 +28,7 @@ class AlpineDocumentProvider : DocumentsProvider() {
             projection
                 ?: DEFAULT_ROOT_PROJECTION
         )
-        val applicationName = "AndLinux"
+        val applicationName = "Terlinux"
 
         val row = result.newRow()
         row.add(DocumentsContract.Root.COLUMN_ROOT_ID, getDocIdForFile(BASE_DIR))
@@ -177,7 +177,7 @@ class AlpineDocumentProvider : DocumentsProvider() {
             // through the whole SD card).
             var isInsideHome: Boolean
             try {
-                isInsideHome = file.canonicalPath.startsWith(alpineHomeDir().canonicalPath)
+                isInsideHome = file.canonicalPath.startsWith(ubuntuHomeDir().canonicalPath)
             } catch (e: IOException) {
                 isInsideHome = true
             }
@@ -276,7 +276,7 @@ class AlpineDocumentProvider : DocumentsProvider() {
 
         private const val ALL_MIME_TYPES = "*/*"
 
-        private val BASE_DIR = alpineHomeDir()
+        private val BASE_DIR = ubuntuHomeDir()
 
         // The default columns to return information about a root if no specific
         // columns are requested in a query.

@@ -39,11 +39,11 @@ object Settings {
         set(value) = Preference.setFloat(key = "wallTransparency",value)
 
     var working_Mode
-        get() = Preference.getInt(key = "workingMode", default = WorkingMode.ALPINE)
+        get() = Preference.getInt(key = "workingMode", default = WorkingMode.UBUNTU)
         set(value) = Preference.setInt(key = "workingMode",value)
 
     var default_shell
-        get() = Preference.getString(key = "default_shell", default = "ash")
+        get() = Preference.getString(key = "default_shell", default = "bash")
         set(value) = Preference.setString(key = "default_shell", value)
 
     var terminal_theme

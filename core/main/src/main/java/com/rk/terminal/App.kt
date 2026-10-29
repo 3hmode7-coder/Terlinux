@@ -21,7 +21,7 @@ class App : Application() {
 
     @OptIn(DelicateCoroutinesApi::class)
     companion object {
-        private const val TAG = "AndLinuxApp"
+        private const val TAG = "TerlinuxApp"
 
         fun getTempDir(): File {
             val tmp = File(application!!.filesDir.parentFile, "tmp")

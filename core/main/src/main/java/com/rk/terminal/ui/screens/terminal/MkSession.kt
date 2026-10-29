@@ -1,6 +1,6 @@
 package com.rk.terminal.ui.screens.terminal
 
-import com.rk.libcommons.alpineHomeDir
+import com.rk.libcommons.ubuntuHomeDir
 import com.rk.libcommons.child
 import com.rk.libcommons.localBinDir
 import com.rk.libcommons.localLibDir
@@ -35,7 +35,7 @@ object MkSession {
                 "EXTERNAL_STORAGE" to System.getenv("EXTERNAL_STORAGE")
             ).filterValues { it != null }
 
-            val workingDir = pendingCommand?.workingDir ?: alpineHomeDir().path
+            val workingDir = pendingCommand?.workingDir ?: ubuntuHomeDir().path
 
             // init-host and init are written by UpdateManager.onUpdate() on every
             // app start; we don't need to rewrite them here per-session.
@@ -58,7 +58,7 @@ object MkSession {
                 "PKG_PATH=${applicationInfo.sourceDir}",
                 "PROOT_TMP_DIR=${getTempDir().child(session_id).also { if (it.exists().not()){it.mkdirs()} }}",
                 "TMPDIR=${getTempDir().absolutePath}",
-                "ANDLINUX_DEFAULT_SHELL=${Settings.default_shell}",
+                "TERLINUX_DEFAULT_SHELL=${Settings.default_shell}",
                 "SHELL=/bin/${Settings.default_shell}"
             )
 
@@ -83,7 +83,7 @@ object MkSession {
             val args: Array<String>
 
             val shell = if (pendingCommand == null) {
-                args = if (workingMode == WorkingMode.ALPINE){
+                args = if (workingMode == WorkingMode.UBUNTU){
                     arrayOf("-c", localBinDir().child("init-host").absolutePath)
                 }else{
                     arrayOf()

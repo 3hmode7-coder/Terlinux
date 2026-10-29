@@ -25,6 +25,6 @@ object Rootfs {
         return andLinux.exists() &&
             andLinux.child("proot").exists() &&
             andLinux.child("libtalloc.so.2").exists() &&
-            andLinux.child("alpine.tar.gz").exists()
+            andLinux.child("ubuntu.tar.gz").exists()
     }
 }

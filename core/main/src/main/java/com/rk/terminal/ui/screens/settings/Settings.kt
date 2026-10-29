@@ -68,12 +68,11 @@ fun SettingsCard(
 
 
 object WorkingMode{
-    const val ALPINE = 0
+    const val UBUNTU = 0
     const val ANDROID = 1
 }
 
 object ShellMode {
-    const val ASH = "ash"
     const val BASH = "bash"
     const val FISH = "fish"
     const val ZSH = "zsh"
@@ -91,19 +90,19 @@ fun Settings(modifier: Modifier = Modifier,navController: NavController,mainActi
         PreferenceGroup(heading = stringResource(strings.default_working_mode)) {
 
             SettingsCard(
-                title = { Text("Alpine") },
-                description = {Text(stringResource(strings.alpine_desc))},
+                title = { Text("Ubuntu") },
+                description = {Text(stringResource(strings.ubuntu_desc))},
                 startWidget = {
                     RadioButton(
                         modifier = Modifier.padding(start = 8.dp),
-                        selected = selectedOption == WorkingMode.ALPINE,
+                        selected = selectedOption == WorkingMode.UBUNTU,
                         onClick = {
-                            selectedOption = WorkingMode.ALPINE
+                            selectedOption = WorkingMode.UBUNTU
                             Settings.working_Mode = selectedOption
                         })
                 },
                 onClick = {
-                    selectedOption = WorkingMode.ALPINE
+                    selectedOption = WorkingMode.UBUNTU
                     Settings.working_Mode = selectedOption
                 })
 
@@ -130,7 +129,6 @@ fun Settings(modifier: Modifier = Modifier,navController: NavController,mainActi
 
         PreferenceGroup(heading = "Default Shell") {
             val shells = listOf(
-                Triple(ShellMode.ASH, "ash", "BusyBox ash: minimal and fastest default shell"),
                 Triple(ShellMode.BASH, "bash", "GNU Bash: best compatibility for scripts"),
                 Triple(ShellMode.FISH, "fish", "Fish: modern interactive shell with autosuggestions"),
                 Triple(ShellMode.ZSH, "zsh", "Zsh: powerful configurable shell")

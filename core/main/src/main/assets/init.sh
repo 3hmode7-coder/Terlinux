@@ -25,11 +25,11 @@ write_identity_files() {
     user_name=$(sanitize_name "$1")
     host_name=$(sanitize_name "$2")
     [ -z "$user_name" ] && user_name="user"
-    [ -z "$host_name" ] && host_name="andlinux"
+    [ -z "$host_name" ] && host_name="terlinux"
 
-    cat > "$HOME/.andlinux_identity" <<EOF
-ANDLINUX_USER='$user_name'
-ANDLINUX_HOST='$host_name'
+    cat > "$HOME/.terlinux_identity" <<EOF
+TERLINUX_USER='$user_name'
+TERLINUX_HOST='$host_name'
 EOF
 
     echo "$host_name" > /etc/hostname
@@ -39,9 +39,9 @@ EOF
 EOF
 
     mkdir -p /etc/profile.d
-    cat > /etc/profile.d/andlinux-identity.sh <<EOF
-export ANDLINUX_USER='$user_name'
-export ANDLINUX_HOST='$host_name'
+    cat > /etc/profile.d/terlinux-identity.sh <<EOF
+export TERLINUX_USER='$user_name'
+export TERLINUX_HOST='$host_name'
 export USER='$user_name'
 export LOGNAME='$user_name'
 export HOSTNAME='$host_name'
@@ -56,8 +56,8 @@ EOF
 EOF
 
     cat > "$HOME/.zprofile" <<EOF
-export ANDLINUX_USER='$user_name'
-export ANDLINUX_HOST='$host_name'
+export TERLINUX_USER='$user_name'
+export TERLINUX_HOST='$host_name'
 export USER='$user_name'
 export LOGNAME='$user_name'
 export HOSTNAME='$host_name'
@@ -66,8 +66,8 @@ EOF
 
     mkdir -p "$HOME/.config/fish"
     cat > "$HOME/.config/fish/config.fish" <<EOF
-set -gx ANDLINUX_USER '$user_name'
-set -gx ANDLINUX_HOST '$host_name'
+set -gx TERLINUX_USER '$user_name'
+set -gx TERLINUX_HOST '$host_name'
 set -gx USER '$user_name'
 set -gx LOGNAME '$user_name'
 set -gx HOSTNAME '$host_name'
@@ -89,7 +89,7 @@ EOF
 }
 
 install_identity_tool() {
-    cat > /usr/local/bin/andlinux-identity <<'EOF'
+    cat > /usr/local/bin/terlinux-identity <<'EOF'
 #!/bin/sh
 sanitize_name() {
     cleaned=$(printf "%s" "$1" | tr -cd 'A-Za-z0-9_-' | cut -c1-32)
@@ -100,11 +100,11 @@ write_identity_files() {
     user_name=$(sanitize_name "$1")
     host_name=$(sanitize_name "$2")
     [ -z "$user_name" ] && user_name="user"
-    [ -z "$host_name" ] && host_name="andlinux"
+    [ -z "$host_name" ] && host_name="terlinux"
 
-    cat > "$HOME/.andlinux_identity" <<EOT
-ANDLINUX_USER='$user_name'
-ANDLINUX_HOST='$host_name'
+    cat > "$HOME/.terlinux_identity" <<EOT
+TERLINUX_USER='$user_name'
+TERLINUX_HOST='$host_name'
 EOT
     echo "$host_name" > /etc/hostname
     cat > /etc/hosts <<EOT
@@ -112,9 +112,9 @@ EOT
 ::1 localhost $host_name
 EOT
     mkdir -p /etc/profile.d
-    cat > /etc/profile.d/andlinux-identity.sh <<EOT
-export ANDLINUX_USER='$user_name'
-export ANDLINUX_HOST='$host_name'
+    cat > /etc/profile.d/terlinux-identity.sh <<EOT
+export TERLINUX_USER='$user_name'
+export TERLINUX_HOST='$host_name'
 export USER='$user_name'
 export LOGNAME='$user_name'
 export HOSTNAME='$host_name'
@@ -127,8 +127,8 @@ EOT
 [ -f ~/.bashrc ] && . ~/.bashrc
 EOT
     cat > "$HOME/.zprofile" <<EOT
-export ANDLINUX_USER='$user_name'
-export ANDLINUX_HOST='$host_name'
+export TERLINUX_USER='$user_name'
+export TERLINUX_HOST='$host_name'
 export USER='$user_name'
 export LOGNAME='$user_name'
 export HOSTNAME='$host_name'
@@ -136,8 +136,8 @@ PROMPT='$user_name@$host_name:%~# '
 EOT
     mkdir -p "$HOME/.config/fish"
     cat > "$HOME/.config/fish/config.fish" <<EOT
-set -gx ANDLINUX_USER '$user_name'
-set -gx ANDLINUX_HOST '$host_name'
+set -gx TERLINUX_USER '$user_name'
+set -gx TERLINUX_HOST '$host_name'
 set -gx USER '$user_name'
 set -gx LOGNAME '$user_name'
 set -gx HOSTNAME '$host_name'
@@ -158,64 +158,56 @@ end
 EOT
 }
 
-printf 'AndLinux identity setup\n'
+printf 'Terlinux identity setup\n'
 printf 'User name [user]: '
 read -r user_name
-printf 'Host name [andlinux]: '
+printf 'Host name [terlinux]: '
 read -r host_name
 [ -z "$user_name" ] && user_name=user
-[ -z "$host_name" ] && host_name=andlinux
+[ -z "$host_name" ] && host_name=terlinux
 write_identity_files "$user_name" "$host_name"
 printf 'Saved. Open a new session or run: exec $SHELL -l\n'
 EOF
-    chmod 755 /usr/local/bin/andlinux-identity
+    chmod 755 /usr/local/bin/terlinux-identity
 }
 
 first_identity_setup() {
     install_identity_tool
-    if [ ! -f "$HOME/.andlinux_identity" ] && [ -t 0 ]; then
-        printf '\nAndLinux first setup\n'
+    if [ ! -f "$HOME/.terlinux_identity" ] && [ -t 0 ]; then
+        printf '\nTerlinux first setup\n'
         printf 'This changes the visible terminal prompt only. The Linux container still runs through proot.\n\n'
         printf 'User name [user]: '
         read -r user_name
-        printf 'Host name [andlinux]: '
+        printf 'Host name [terlinux]: '
         read -r host_name
         [ -z "$user_name" ] && user_name=user
-        [ -z "$host_name" ] && host_name=andlinux
+        [ -z "$host_name" ] && host_name=terlinux
         write_identity_files "$user_name" "$host_name"
         printf '\nSaved identity: %s@%s\n\n' "$(sanitize_name "$user_name")" "$(sanitize_name "$host_name")"
-    elif [ -f "$HOME/.andlinux_identity" ]; then
-        . "$HOME/.andlinux_identity"
-        write_identity_files "$ANDLINUX_USER" "$ANDLINUX_HOST"
+    elif [ -f "$HOME/.terlinux_identity" ]; then
+        . "$HOME/.terlinux_identity"
+        write_identity_files "$TERLINUX_USER" "$TERLINUX_HOST"
     fi
 }
 
 install_packages() {
     missing=""
     for pkg in "$@"; do
-        if ! apk info -e "$pkg" >/dev/null 2>&1; then
+        if ! dpkg-query -W -f='${db:Status-Status}' "$pkg" 2>/dev/null | grep -qx installed; then
             missing="$missing $pkg"
         fi
     done
 
     if [ -n "$missing" ]; then
-        echo -e "\e[34;1m[*]\e[0m Installing packages:$missing"
-        # apk update may fail (no network). Don't let that kill the script —
-        # just try to install the packages directly; if that also fails we
-        # print a clear error and continue so the user still gets a shell.
-        apk update 2>&1 || echo -e "\e[33;1m[!]\e[0m apk update failed (no network?), continuing"
-        if apk add $missing 2>&1; then
-            echo -e "\e[32;1m[+]\e[0m Packages installed"
-        else
-            echo -e "\e[33;1m[!]\e[0m Failed to install:$missing — continuing without them"
-            return 1
-        fi
+        echo "Installing packages:$missing"
+        apt-get update || echo "apt-get update failed; continuing"
+        apt-get install -y $missing || return 1
     fi
     return 0
 }
 
 # Base compatibility packages. Keep this list small; optional shells are installed only when selected.
-install_packages bash gcompat glib nano
+install_packages bash nano
 first_identity_setup
 
 # Fix Android linker warning in some proot builds.
@@ -225,14 +217,10 @@ if [ ! -f /linkerconfig/ld.config.txt ]; then
 fi
 
 select_shell() {
-    case "${ANDLINUX_DEFAULT_SHELL:-ash}" in
-        ash|sh)
-            SELECTED_SHELL=/bin/ash
-            SELECTED_PKG=""
-            ;;
-        bash)
+    case "${TERLINUX_DEFAULT_SHELL:-bash}" in
+        bash|sh)
             SELECTED_SHELL=/bin/bash
-            SELECTED_PKG=bash
+            SELECTED_PKG=""
             ;;
         fish)
             SELECTED_SHELL=/usr/bin/fish
@@ -243,8 +231,8 @@ select_shell() {
             SELECTED_PKG=zsh
             ;;
         *)
-            echo "Unknown shell '${ANDLINUX_DEFAULT_SHELL}', falling back to ash"
-            SELECTED_SHELL=/bin/ash
+            echo "Unknown shell '${TERLINUX_DEFAULT_SHELL}', falling back to bash"
+            SELECTED_SHELL=/bin/bash
             SELECTED_PKG=""
             ;;
     esac
@@ -254,14 +242,14 @@ select_shell
 
 if [ -n "$SELECTED_PKG" ] && [ ! -x "$SELECTED_SHELL" ]; then
     if ! install_packages "$SELECTED_PKG"; then
-        echo "Failed to install shell package '$SELECTED_PKG', falling back to ash"
-        SELECTED_SHELL=/bin/ash
+        echo "Failed to install shell package '$SELECTED_PKG', falling back to bash"
+        SELECTED_SHELL=/bin/bash
     fi
 fi
 
 if [ ! -x "$SELECTED_SHELL" ]; then
-    echo "Shell '$SELECTED_SHELL' is not executable, falling back to ash"
-    SELECTED_SHELL=/bin/ash
+    echo "Shell '$SELECTED_SHELL' is not executable, falling back to bash"
+    SELECTED_SHELL=/bin/bash
 fi
 
 export SHELL="$SELECTED_SHELL"

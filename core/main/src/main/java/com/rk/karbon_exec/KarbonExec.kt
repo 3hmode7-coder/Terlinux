@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 /**
  * Termux RUN_COMMAND integration.
  *
- * Status: currently UNUSED inside AndLinux. The functions here are kept as a
+ * Status: currently UNUSED inside Terlinux. The functions here are kept as a
  * standalone helper module so that future code (e.g. a "Run in Termux" menu
  * action) can call into a real Termux install via the RUN_COMMAND intent.
  *
@@ -135,7 +135,7 @@ fun runBashScript(
 }
 
 /**
- * Launch AndLinux's own terminal activity with a pending command.
+ * Launch Terlinux's own terminal activity with a pending command.
  *
  * Replaces the legacy Xed-Editor cross-process terminal launch path which
  * referenced a class that does not exist in this project.
