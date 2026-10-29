@@ -7,29 +7,30 @@
 ## Русский
 **AndLinux** — мобильная Linux-терминальная среда для Android без root-доступа
 
-Проект делает упор на стабильный запуск Ubuntu ARM64, удобную работу, выбор shell и полноценные цветовые темы для терминала и интерфейса приложения. AndLinux работает как обычное приложение: ставится из APK, не требует разблокировки загрузчика, не модифицирует систему и не требует root
+Проект делает упор на стабильный запуск Alpine Linux, удобную работу, выбор shell и полноценные цветовые темы для терминала и интерфейса приложения. AndLinux работает как обычное приложение: ставится из APK, не требует разблокировки загрузчика, не модифицирует систему и не требует root
 ```text
 Версия: 1.6 (stable)
 Разработчик: SiriLV
 Лицензия: MIT
 Package ID: com.term.andlinux
 Root-доступ: не требуется
-Основная среда: Ubuntu ARM64
+Основная среда: Alpine Linux
 SDK: min 26 (Android 8.0), target 28 (Fdroid) / 35 (PlayStore)
 ```
 
 ### Ключевые возможности
-- **Ubuntu ARM64 внутри Android через proot.** Полноценный userspace-дистрибутив Ubuntu, запускаемый без root через `proot` с предзагруженным `libtalloc.so.2`
-- **Отдельный режим Android shell.** При необходимости можно работать в чистом Android shell, не входя в Ubuntu
+- **Alpine Linux внутри Android через proot.** Полноценный userspace-дистрибутив Alpine, запускаемый без root через `proot` с предзагруженным `libtalloc.so.2`
+- **Отдельный режим Android shell.** При необходимости можно работать в чистом Android shell, не входя в Alpine
 - **Несколько терминальных сессий.** Сессии переключаются через боковое меню, каждая имеет свой рабочий режим
 - **Виртуальные терминальные клавиши.** `ESC`, `CTRL`, `ALT`, стрелки, `HOME`, `END`, `PGUP`, `PGDN`, `TAB`
-- **Выбор shell для Ubuntu:**
-  - `bash` — GNU Bash, shell по умолчанию и лучшая совместимость со скриптами
+- **Выбор shell для Alpine:**
+  - `ash` — BusyBox ash, минимальный и быстрый shell по умолчанию
+  - `bash` — GNU Bash, лучшая совместимость со скриптами
   - `fish` — современный интерактивный shell с автодополнением
   - `zsh` — мощный настраиваемый shell
 - **Login-shell запуск** для выбранного shell
 - **Автоматическая установка выбранного shell**
-- **OpenCode при первом запуске.** OpenCode устанавливается автоматически и открывается после завершения первой настройки
+- **OpenCode при запуске.** OpenCode устанавливается при необходимости и открывается автоматически при запуске Alpine
 - **Настраиваемый размер текста терминала** (10–20sp)
 - **Настраиваемый scrollback** терминала
 - **Пользовательский шрифт** (любой `.ttf`, рекомендуется моноширинный)
@@ -38,7 +39,7 @@ SDK: min 26 (Android 8.0), target 28 (Fdroid) / 35 (PlayStore)
 - **Переключатели status bar, title bar и virtual keys**
 - **Настраиваемые keyboard shortcuts** для paste, new/close/switch session
 - **Темы**, которые меняют и терминал, и интерфейс приложения (Material 3)
-- **Ubuntu Base ARM64 rootfs** из официального архива Ubuntu
+- **Динамический выбор последнего стабильного релиза Alpine**
 
 ### Темы
 AndLinux 1.6 поддерживает набор встроенных цветовых схем:
@@ -64,7 +65,7 @@ Ayu Light
 Темы применяются к терминалу и основному UI: экрану сессий, настройкам, карточкам, панелям, акцентным цветам и системным bar-флагам. Выбор темы сохраняется в `colors.properties` и применяется при следующем запуске
 
 ### Первый запуск: user и hostname
-При первом запуске Ubuntu приложение предлагает задать видимое имя пользователя и hostname:
+При первом запуске Alpine приложение предлагает задать видимое имя пользователя и hostname:
 ```text
 AndLinux first setup
 
@@ -84,23 +85,31 @@ siri@okak:~#
 andlinux-identity
 ```
 
-Эта команда меняет prompt, `/etc/hostname`, `/etc/hosts` и переменные окружения (`USER`, `LOGNAME`, `HOSTNAME`, `ANDLINUX_USER`, `ANDLINUX_HOST`) внутри Ubuntu. Среда по-прежнему работает через proot — root-доступ не требуется
+Эта команда меняет prompt, `/etc/hostname`, `/etc/hosts` и переменные окружения (`USER`, `LOGNAME`, `HOSTNAME`, `ANDLINUX_USER`, `ANDLINUX_HOST`) внутри Alpine. Среда по-прежнему работает через proot — root-доступ не требуется
 
-### Загрузка Ubuntu ARM64
+### Загрузка Alpine Linux
 При первом запуске AndLinux скачивает три файла:
 1. `libtalloc.so.2` — библиотека, требуемая `proot`
 2. `proot` — бинарник proot для соответствующей архитектуры
-3. `ubuntu.tar.gz` — официальный Ubuntu Base rootfs для ARM64
+3. `alpine.tar.gz` — minirootfs последнего стабильного релиза Alpine Linux
 
-Rootfs скачивается из официального архива Ubuntu:
+Для Alpine minirootfs URL резолвится **динамически** во время запуска:
 ```text
-https://cdimage.ubuntu.com/ubuntu-base/releases/26.04/release/ubuntu-base-26.04.1-base-arm64.tar.gz
+https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/<arch>/
 ```
 
+Приложение получает листинг директории, ищет файл вида
+`alpine-minirootfs-<version>-<arch>.tar.gz`, выбирает файл с наибольшим
+номером версии и скачивает его. Благодаря этому AndLinux всегда
+устанавливает актуальный стабильный релиз Alpine, не требуя обновления
+самого APK при выходе новой минорной версии Alpine
+
 Поддерживаемые архитектуры:
-| Android ABI     | Ubuntu arch |
+| Android ABI     | Alpine arch |
 |-----------------|-------------|
-| `arm64-v8a`     | `arm64`     |
+| `arm64-v8a`     | `aarch64`   |
+| `armeabi-v7a`   | `armhf`     |
+| `x86_64`        | `x86_64`    |
 
 ### Shell
 Открой:
@@ -108,7 +117,7 @@ https://cdimage.ubuntu.com/ubuntu-base/releases/26.04/release/ubuntu-base-26.04.
 Settings -> Default Shell
 ```
 
-Выбери `bash`, `fish` или `zsh`, затем открой новую сессию
+Выбери `ash`, `bash`, `fish` или `zsh`, затем открой новую сессию
 
 Проверка:
 ```sh
@@ -152,7 +161,7 @@ app/build/outputs/apk/Fdroid/release/*.apk
 │   ├── main/                 # основной код AndLinux
 │   │   ├── src/main/
 │   │   │   ├── assets/
-│   │   │   │   ├── init.sh         # init-скрипт Ubuntu (вызывается proot-ом)
+│   │   │   │   ├── init.sh         # init-скрипт Alpine (вызывается proot-ом)
 │   │   │   │   └── init-host.sh    # host-сторона: monтировка bind-ов, запуск proot
 │   │   │   ├── java/com/rk/
 │   │   │   │   ├── terminal/       # UI: terminal screen, settings, customization, downloader
@@ -181,12 +190,12 @@ app/build/outputs/apk/Fdroid/release/*.apk
 После установки AndLinux использует следующие каталоги внутри своего приватного хранилища:
 ```text
 /data/data/com.term.andlinux/
-├── files/                 # Rootfs.andLinux — сюда скачиваются proot, libtalloc, ubuntu.tar.gz
+├── files/                 # Rootfs.andLinux — сюда скачиваются proot, libtalloc, alpine.tar.gz
 ├── local/
 │   ├── bin/               # init, init-host, proot (копия)
 │   ├── lib/               # libtalloc.so.2 (копия)
-│   └── ubuntu/            # распакованный Ubuntu rootfs
-│       └── root/          # $HOME внутри Ubuntu (=UbuntuDocumentProvider root)
+│   └── alpine/            # распакованный Alpine rootfs
+│       └── root/          # $HOME внутри Alpine (=AlpineDocumentProvider root)
 └── tmp/                   # PROOT_TMP_DIR, чистится при старте
 ```
 
@@ -200,28 +209,29 @@ MIT. См. [`LICENSE`](LICENSE)
 ## English
 **AndLinux** is a mobile Linux terminal environment for Android without root access
 
-The project focuses on stable Ubuntu ARM64 startup through proot, shell selection, and full color themes for both the terminal and the app UI. AndLinux runs as a regular APK: no bootloader unlock, no system modification, no root
+The project focuses on stable Alpine Linux startup through proot, shell selection, and full color themes for both the terminal and the app UI. AndLinux runs as a regular APK: no bootloader unlock, no system modification, no root
 ```text
 Version: 1.6 (stable)
 Developer: SiriLV
 License: MIT
 Package ID: com.term.andlinux
 Root access: not required
-Main environment: Ubuntu ARM64
+Main environment: Alpine Linux
 SDK: min 26 (Android 8.0), target 28 (Fdroid) / 35 (PlayStore)
 ```
 
 ### Key features
-- **Ubuntu ARM64 on Android through proot.** A full Ubuntu userspace running unrooted via `proot` with a pre-bundled `libtalloc.so.2`
-- **Separate Android shell mode.** Drop into a plain Android shell without entering Ubuntu when you need it
+- **Alpine Linux on Android through proot.** A full Alpine userspace running unrooted via `proot` with a pre-bundled `libtalloc.so.2`
+- **Separate Android shell mode.** Drop into a plain Android shell without entering Alpine when you need it
 - **Multiple terminal sessions.** Switch sessions from the side drawer; each session has its own working mode
 - **Virtual terminal keys.** `ESC`, `CTRL`, `ALT`, arrows, `HOME`, `END`, `PGUP`, `PGDN`, `TAB`
-- **Ubuntu shell selector:**
-  - `bash` — GNU Bash, the default shell with the best script compatibility
+- **Alpine shell selector:**
+  - `ash` — BusyBox ash, minimal and fastest default shell
+  - `bash` — GNU Bash, best compatibility for scripts
   - `fish` — modern interactive shell with autosuggestions
   - `zsh` — powerful configurable shell
 - **Login-shell startup** for the selected shell
-- **OpenCode on first launch.** OpenCode is installed automatically and opened after initial setup
+- **OpenCode at launch.** OpenCode is installed when needed and opens automatically whenever Alpine starts
 - **Configurable terminal text size** (10–20sp)
 - **Configurable scrollback.**
 - **Custom font** (any `.ttf`, monospaced strongly recommended)
@@ -230,7 +240,7 @@ SDK: min 26 (Android 8.0), target 28 (Fdroid) / 35 (PlayStore)
 - **Status bar, title bar, and virtual keys toggles.**
 - **Configurable keyboard shortcuts** for paste, new/close/switch session
 - **Themes** that drive both the terminal and the app UI (Material 3)
-- **Ubuntu Base ARM64 rootfs** from the official Ubuntu archive
+- **Dynamic latest-stable Alpine release resolution**
 
 ### Themes
 AndLinux 1.6 includes built-in color schemes:
@@ -256,7 +266,7 @@ Ayu Light
 Themes are applied to the terminal and the main UI: session drawer, settings, cards, panels, accent colors, and system bar flags. The selected theme is persisted in `colors.properties` and reapplied on next launch
 
 ### First launch: user and hostname
-On the first Ubuntu launch, AndLinux asks for the visible user name and hostname:
+On the first Alpine launch, AndLinux asks for the visible user name and hostname:
 ```text
 AndLinux first setup
 
@@ -276,24 +286,32 @@ You can change it later with:
 andlinux-identity
 ```
 
-This changes the prompt, `/etc/hostname`, `/etc/hosts`, and environment variables (`USER`, `LOGNAME`, `HOSTNAME`, `ANDLINUX_USER`, `ANDLINUX_HOST`) inside Ubuntu. The environment still runs through proot — no root required
+This changes the prompt, `/etc/hostname`, `/etc/hosts`, and environment variables (`USER`, `LOGNAME`, `HOSTNAME`, `ANDLINUX_USER`, `ANDLINUX_HOST`) inside Alpine. The environment still runs through proot — no root required
 
-### Ubuntu ARM64 download
+### Alpine Linux download
 On first launch AndLinux downloads three files:
 
 1. `libtalloc.so.2` — library required by `proot`
 2. `proot` — proot binary for the device's architecture
-3. `ubuntu.tar.gz` — the official Ubuntu Base rootfs for ARM64
+3. `alpine.tar.gz` — the minirootfs of the latest stable Alpine release
 
-The rootfs is downloaded from the official Ubuntu archive:
+For the Alpine minirootfs the URL is resolved **dynamically** at runtime:
 ```text
-https://cdimage.ubuntu.com/ubuntu-base/releases/26.04/release/ubuntu-base-26.04.1-base-arm64.tar.gz
+https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/<arch>/
 ```
 
+The app fetches the directory listing, looks for files matching
+`alpine-minirootfs-<version>-<arch>.tar.gz`, picks the one with the
+highest version number, and downloads it. This way AndLinux always
+installs the current stable Alpine release without requiring an APK
+update each time Alpine ships a new minor version
+
 Supported architectures:
-| Android ABI     | Ubuntu arch |
+| Android ABI     | Alpine arch |
 |-----------------|-------------|
-| `arm64-v8a`     | `arm64`     |
+| `arm64-v8a`     | `aarch64`   |
+| `armeabi-v7a`   | `armhf`     |
+| `x86_64`        | `x86_64`    |
 
 ### Shell
 Open:
@@ -301,9 +319,9 @@ Open:
 Settings -> Default Shell
 ```
 
-Choose `bash`, `fish`, or `zsh`, then open a new session
+Choose `ash`, `bash`, `fish`, or `zsh`, then open a new session
 
-Check inside Ubuntu:
+Check inside Alpine:
 ```sh
 echo "$SHELL"
 echo "$0"
@@ -346,7 +364,7 @@ It will auto-generate `local.properties` from `ANDROID_HOME` (if set), then run 
 │   ├── main/                 # main AndLinux code
 │   │   ├── src/main/
 │   │   │   ├── assets/
-│   │   │   │   ├── init.sh         # Ubuntu init script (called by proot)
+│   │   │   │   ├── init.sh         # Alpine init script (called by proot)
 │   │   │   │   └── init-host.sh    # host side: bind mounts, proot launch
 │   │   │   ├── java/com/rk/
 │   │   │   │   ├── terminal/       # UI: terminal screen, settings, customization, downloader
@@ -375,12 +393,12 @@ It will auto-generate `local.properties` from `ANDROID_HOME` (if set), then run 
 After install, AndLinux uses the following directories inside its private storage:
 ```text
 /data/data/com.term.andlinux/
-├── files/                 # Rootfs.andLinux — proot, libtalloc, ubuntu.tar.gz land here
+├── files/                 # Rootfs.andLinux — proot, libtalloc, alpine.tar.gz land here
 ├── local/
 │   ├── bin/               # init, init-host, proot (copy)
 │   ├── lib/               # libtalloc.so.2 (copy)
-│   └── ubuntu/            # extracted Ubuntu rootfs
-│       └── root/          # $HOME inside Ubuntu (=UbuntuDocumentProvider root)
+│   └── alpine/            # extracted Alpine rootfs
+│       └── root/          # $HOME inside Alpine (=AlpineDocumentProvider root)
 └── tmp/                   # PROOT_TMP_DIR, cleaned on start
 ```
 

@@ -281,10 +281,10 @@ fun TerminalScreen(
 
                 PreferenceGroup {
                     SettingsCard(
-                        title = { Text("Ubuntu") },
-                        description = {Text(stringResource(strings.ubuntu_desc))},
+                        title = { Text("Alpine") },
+                        description = {Text(stringResource(strings.alpine_desc))},
                         onClick = {
-                           createSession(workingMode = WorkingMode.UBUNTU)
+                           createSession(workingMode = WorkingMode.ALPINE)
                             showAddDialog = false
                         })
 
@@ -408,7 +408,7 @@ fun TerminalScreen(
 
                             fun getNameOfWorkingMode(workingMode:Int?):String{
                                 return when(workingMode){
-                                    0 -> "UBUNTU".lowercase()
+                                    0 -> "ALPINE".lowercase()
                                     1 -> "ANDROID".lowercase()
                                     null -> "null"
                                     else -> "unknown"
@@ -424,7 +424,7 @@ fun TerminalScreen(
                                     ),
                                     title = {
                                         Column {
-                                            Text(text = "Terlinux", color = color)
+                                            Text(text = "AndLinux", color = color)
                                             // Null-safe session title. sessionBinder is normally bound
                                             // by the time TerminalScreen is composed, but defensive
                                             // null-handling avoids an NPE in the title bar if the

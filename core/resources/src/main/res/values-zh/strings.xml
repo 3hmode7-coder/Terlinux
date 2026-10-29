@@ -2,8 +2,8 @@
 <resources>
     <string name="settings">设置</string>
     <string name="default_working_mode">默认工作模式</string>
-    <string name="ubuntu_desc">Ubuntu Linux</string>
-    <string name="android_desc">Terlinux Android Shell</string>
+    <string name="alpine_desc">Alpine Linux</string>
+    <string name="android_desc">AndLinux Android Shell</string>
     <string name="customizations">自定义</string>
     <string name="seccomp">SECCOMP</string>
     <string name="seccomp_desc">修复"操作不被允许"错误</string>

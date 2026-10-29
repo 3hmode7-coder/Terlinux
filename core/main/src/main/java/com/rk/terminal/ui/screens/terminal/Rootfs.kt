@@ -5,7 +5,7 @@ import com.rk.libcommons.application
 import com.rk.libcommons.child
 
 /**
- * Holds the working directory used by the Ubuntu downloader and proot init scripts.
+ * Holds the working directory used by the Alpine downloader and proot init scripts.
  *
  * Historically this was called `reTerminal`; it has been renamed to `andLinux` so the
  * source code matches the project identity. The on-disk location itself did not change.
@@ -25,6 +25,6 @@ object Rootfs {
         return andLinux.exists() &&
             andLinux.child("proot").exists() &&
             andLinux.child("libtalloc.so.2").exists() &&
-            andLinux.child("ubuntu.tar.gz").exists()
+            andLinux.child("alpine.tar.gz").exists()
     }
 }

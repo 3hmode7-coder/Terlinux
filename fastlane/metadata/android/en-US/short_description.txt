@@ -1,1 +1,1 @@
-Terlinux — Ubuntu ARM64 terminal for Android (no root required)
+AndLinux — Alpine Linux terminal for Android (no root required)
