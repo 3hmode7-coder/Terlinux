@@ -232,6 +232,12 @@ install_and_launch_opencode() {
         fi
     fi
 
+    if [ -x "$HOME/opencode/opencode" ] && [ ! -x "$opencode_bin" ]; then
+        mkdir -p "$HOME/.opencode/bin"
+        cp "$HOME/opencode/opencode" "$opencode_bin"
+        chmod +x "$opencode_bin"
+    fi
+
     if [ -x "$opencode_bin" ]; then
         echo "Starting OpenCode..."
         "$opencode_bin" web --hostname 127.0.0.1 --port 4096 >"$HOME/.opencode/web.log" 2>&1 &

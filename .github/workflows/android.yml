@@ -25,6 +25,13 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Bundle OpenCode for Alpine ARM64
+        run: |
+          mkdir -p core/main/src/main/assets/opencode
+          curl -fL https://github.com/anomalyco/opencode/releases/download/v1.19.5/opencode-linux-arm64-musl.tar.gz -o /tmp/opencode.tar.gz
+          tar -xzf /tmp/opencode.tar.gz -C core/main/src/main/assets/opencode
+          chmod +x core/main/src/main/assets/opencode/opencode
+
       - name: Build with Gradle
         run: ./gradlew --no-daemon assembleFdroidRelease
 
