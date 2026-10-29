@@ -234,6 +234,7 @@ install_and_launch_opencode() {
 
     if [ -x "$opencode_bin" ]; then
         echo "Starting OpenCode..."
+        "$opencode_bin" web --hostname 127.0.0.1 --port 4096 >"$HOME/.opencode/web.log" 2>&1 &
         exec "$opencode_bin"
     fi
 
