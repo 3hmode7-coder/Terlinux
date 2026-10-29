@@ -1,11 +1,9 @@
-# Ter
-
-# AndLinux
+# Terlinux
 [Русский](#русский) | [English](#english)
 
 ---
 ## Русский
-**AndLinux** — мобильная Linux-терминальная среда для Android без root-доступа
+**Terlinux** — мобильная Linux-терминальная среда для Android без root-доступа
 
 Проект делает упор на стабильный запуск Alpine Linux, удобную работу, выбор shell и полноценные цветовые темы для терминала и интерфейса приложения. AndLinux работает как обычное приложение: ставится из APK, не требует разблокировки загрузчика, не модифицирует систему и не требует root
 ```text
@@ -207,7 +205,7 @@ MIT. См. [`LICENSE`](LICENSE)
 ---
 
 ## English
-**AndLinux** is a mobile Linux terminal environment for Android without root access
+**Terlinux** is a mobile Linux terminal environment for Android without root access
 
 The project focuses on stable Alpine Linux startup through proot, shell selection, and full color themes for both the terminal and the app UI. AndLinux runs as a regular APK: no bootloader unlock, no system modification, no root
 ```text

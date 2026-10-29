@@ -220,7 +220,7 @@ install_and_launch_opencode() {
     if [ ! -x "$opencode_bin" ]; then
         echo "Installing OpenCode..."
         if ! install_packages curl ca-certificates; then
-            echo "OpenCode prerequisites could not be installed; continuing without OpenCode." >&2
+            echo "OpenCode prerequisites could not be installed." >&2
             return 1
         fi
 
@@ -237,7 +237,7 @@ install_and_launch_opencode() {
         exec "$opencode_bin"
     fi
 
-    echo "OpenCode executable was not found; continuing without OpenCode." >&2
+    echo "OpenCode executable was not found." >&2
     return 1
 }
 
@@ -294,9 +294,12 @@ fi
 export SHELL="$SELECTED_SHELL"
 cd "$HOME"
 
-# Start OpenCode whenever the Alpine terminal is opened. If installation
-# failed because the device is offline, the normal shell still remains usable.
-install_and_launch_opencode
+# OpenCode is mandatory: do not open a normal shell until its installation
+# succeeds and the OpenCode terminal has started.
+if ! install_and_launch_opencode; then
+    echo "OpenCode is required before Terlinux can start. Check your connection and reopen the app." >&2
+    exit 1
+fi
 
 if [ "$#" -eq 0 ]; then
     exec "$SELECTED_SHELL" -l

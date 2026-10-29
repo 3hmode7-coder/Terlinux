@@ -28,7 +28,7 @@ class AlpineDocumentProvider : DocumentsProvider() {
             projection
                 ?: DEFAULT_ROOT_PROJECTION
         )
-        val applicationName = "AndLinux"
+        val applicationName = "Terlinux"
 
         val row = result.newRow()
         row.add(DocumentsContract.Root.COLUMN_ROOT_ID, getDocIdForFile(BASE_DIR))

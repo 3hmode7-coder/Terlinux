@@ -424,7 +424,7 @@ fun TerminalScreen(
                                     ),
                                     title = {
                                         Column {
-                                            Text(text = "AndLinux", color = color)
+                                            Text(text = "Terlinux", color = color)
                                             // Null-safe session title. sessionBinder is normally bound
                                             // by the time TerminalScreen is composed, but defensive
                                             // null-handling avoids an NPE in the title bar if the

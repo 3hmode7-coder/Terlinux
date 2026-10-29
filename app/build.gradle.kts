@@ -54,12 +54,12 @@ android {
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("release")
-            resValue("string", "app_name", "AndLinux")
+            resValue("string", "app_name", "Terlinux")
         }
         debug {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-DEBUG"
-            resValue("string", "app_name", "AndLinux")
+            resValue("string", "app_name", "Terlinux")
         }
     }
 
