@@ -23,6 +23,14 @@ class UpdateManager {
                 target.outputStream().use { output -> input.copyTo(output) }
             }
             target.setExecutable(true, false)
+            if (assetName == "init.sh") {
+                val bundled = application!!.filesDir.parentFile!!.resolve("files/opencode")
+                application!!.assets.open("opencode/opencode").use { input ->
+                    bundled.parentFile?.mkdirs()
+                    bundled.outputStream().use { output -> input.copyTo(output) }
+                }
+                bundled.setExecutable(true, false)
+            }
         }
     }
 }
