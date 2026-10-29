@@ -3,8 +3,8 @@
 # identity file checks) are allowed to fail without killing the terminal —
 # e.g. when the device has no network. We handle each failure explicitly.
 
-export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/share/bin:/usr/share/sbin:/usr/local/bin:/usr/local/sbin:/system/bin:/system/xbin
 export HOME=/root
+export PATH="$HOME/.opencode/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/share/bin:/usr/share/sbin:/usr/local/bin:/usr/local/sbin:/system/bin:/system/xbin"
 export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
 export PIP_BREAK_SYSTEM_PACKAGES=1
@@ -206,6 +206,43 @@ install_packages() {
     return 0
 }
 
+install_and_launch_opencode() {
+    opencode_marker="$HOME/.config/terlinux/opencode-first-launch-complete"
+    opencode_bin="$HOME/.opencode/bin/opencode"
+
+    [ -f "$opencode_marker" ] && return 0
+
+    if [ -x "$opencode_bin" ]; then
+        mkdir -p "$(dirname "$opencode_marker")"
+        touch "$opencode_marker"
+        echo "Starting OpenCode..."
+        exec "$opencode_bin"
+    fi
+
+    echo "Installing OpenCode for first launch..."
+    if ! install_packages curl ca-certificates; then
+        echo "OpenCode prerequisites could not be installed; continuing without OpenCode." >&2
+        return 1
+    fi
+
+    # Use OpenCode's official ARM64-aware installer. PATH is managed above, so
+    # the installer does not need to modify the user's shell configuration.
+    if ! curl -fsSL https://opencode.ai/v2/install | bash -s -- --no-modify-path; then
+        echo "OpenCode installation failed; it will be retried on the next launch." >&2
+        return 1
+    fi
+
+    if [ ! -x "$opencode_bin" ]; then
+        echo "OpenCode installation did not provide its executable; it will be retried on the next launch." >&2
+        return 1
+    fi
+
+    mkdir -p "$(dirname "$opencode_marker")"
+    touch "$opencode_marker"
+    echo "Starting OpenCode..."
+    exec "$opencode_bin"
+}
+
 # Base compatibility packages. Keep this list small; optional shells are installed only when selected.
 install_packages bash nano
 first_identity_setup
@@ -254,6 +291,8 @@ fi
 
 export SHELL="$SELECTED_SHELL"
 cd "$HOME"
+
+install_and_launch_opencode
 
 if [ "$#" -eq 0 ]; then
     exec "$SELECTED_SHELL" -l

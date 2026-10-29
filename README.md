@@ -29,6 +29,7 @@ SDK: min 26 (Android 8.0), target 28 (Fdroid) / 35 (PlayStore)
   - `zsh` — мощный настраиваемый shell
 - **Login-shell запуск** для выбранного shell
 - **Автоматическая установка выбранного shell**
+- **OpenCode при первом запуске.** OpenCode устанавливается автоматически и открывается после завершения первой настройки
 - **Настраиваемый размер текста терминала** (10–20sp)
 - **Настраиваемый scrollback** терминала
 - **Пользовательский шрифт** (любой `.ttf`, рекомендуется моноширинный)
@@ -220,6 +221,7 @@ SDK: min 26 (Android 8.0), target 28 (Fdroid) / 35 (PlayStore)
   - `fish` — modern interactive shell with autosuggestions
   - `zsh` — powerful configurable shell
 - **Login-shell startup** for the selected shell
+- **OpenCode on first launch.** OpenCode is installed automatically and opened after initial setup
 - **Configurable terminal text size** (10–20sp)
 - **Configurable scrollback.**
 - **Custom font** (any `.ttf`, monospaced strongly recommended)
