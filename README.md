@@ -1,3 +1,5 @@
+# Ter
+
 # AndLinux
 [Русский](#русский) | [English](#english)
 
