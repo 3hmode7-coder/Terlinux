@@ -35,7 +35,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -322,13 +321,13 @@ fun TerminalScreen(
                             )
 
                             Row {
+                                val keyboardController = LocalSoftwareKeyboardController.current
                                 IconButton(onClick = {
                                     navController.navigate(MainActivityRoutes.OpenCode.route)
                                     keyboardController?.hide()
                                 }) {
-                                    Icon(imageVector = Icons.Outlined.Code, contentDescription = "OpenCode Web")
+                                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "OpenCode Web")
                                 }
-                                val keyboardController = LocalSoftwareKeyboardController.current
                                 IconButton(onClick = {
                                     navController.navigate(MainActivityRoutes.Settings.route)
                                     keyboardController?.hide()
