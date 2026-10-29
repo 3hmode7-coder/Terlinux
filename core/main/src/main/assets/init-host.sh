@@ -6,6 +6,12 @@ if [ -z "$(ls -A "$ALPINE_DIR" | grep -vE '^(root|tmp)$')" ]; then
     tar -xf "$PREFIX/files/alpine.tar.gz" -C "$ALPINE_DIR"
 fi
 
+if [ -e "$PREFIX/files/opencode" ]; then
+  mkdir -p "$ALPINE_DIR/root/opencode"
+  cp "$PREFIX/files/opencode" "$ALPINE_DIR/root/opencode/opencode"
+  chmod +x "$ALPINE_DIR/root/opencode/opencode"
+fi
+
 [ ! -e "$PREFIX/local/bin/proot" ] && cp "$PREFIX/files/proot" "$PREFIX/local/bin"
 
 # Copy any pre-bundled shared libraries (libtalloc.so.2 etc.) into the local lib dir.
