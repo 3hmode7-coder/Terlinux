@@ -74,7 +74,7 @@
 -keep class com.rk.terminal.App { *; }
 -keep class com.rk.terminal.ui.activities.terminal.MainActivity { *; }
 -keep class com.rk.terminal.service.SessionService { *; }
--keep class com.rk.AlpineDocumentProvider { *; }
+-keep class com.rk.UbuntuDocumentProvider { *; }
 -keepclasseswithmembernames class com.rk.terminal.App { *; }
 -keepclassmembernames class com.rk.terminal.App { *; }
 -keepnames class com.rk.terminal.App { *; }

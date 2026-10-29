@@ -22,7 +22,7 @@ import java.util.LinkedList
 import java.util.Locale
 import com.rk.terminal.R
 
-class AlpineDocumentProvider : DocumentsProvider() {
+class UbuntuDocumentProvider : DocumentsProvider() {
     override fun queryRoots(projection: Array<String>?): Cursor {
         val result = MatrixCursor(
             projection
@@ -250,7 +250,7 @@ class AlpineDocumentProvider : DocumentsProvider() {
 
     companion object {
         fun isDocumentProviderEnabled(context: Context): Boolean {
-            val componentName = ComponentName(context, AlpineDocumentProvider::class.java)
+            val componentName = ComponentName(context, UbuntuDocumentProvider::class.java)
             val state = context.packageManager.getComponentEnabledSetting(componentName)
             return state == PackageManager.COMPONENT_ENABLED_STATE_ENABLED ||
                     state == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT
@@ -260,7 +260,7 @@ class AlpineDocumentProvider : DocumentsProvider() {
             if (isDocumentProviderEnabled(context) == enabled) {
                 return
             }
-            val componentName = ComponentName(context, AlpineDocumentProvider::class.java)
+            val componentName = ComponentName(context, UbuntuDocumentProvider::class.java)
             val newState = if (enabled)
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED
             else
