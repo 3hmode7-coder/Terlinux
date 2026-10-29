@@ -23,6 +23,7 @@ import com.rk.terminal.ui.screens.downloader.Downloader
 import com.rk.terminal.ui.screens.settings.Settings
 import com.rk.terminal.ui.screens.terminal.Rootfs
 import com.rk.terminal.ui.screens.terminal.TerminalScreen
+import com.rk.terminal.ui.screens.opencode.OpenCodeWebScreen
 
 var showStatusBar = mutableStateOf(Settings.statusBar)
 var horizontal_statusBar = mutableStateOf(Settings.horizontal_statusBar)
@@ -84,6 +85,10 @@ fun MainActivityNavHost(modifier: Modifier = Modifier,navController: NavHostCont
             }else{
                 Downloader(mainActivity = mainActivity, navController = navController)
             }
+        }
+        composable(MainActivityRoutes.OpenCode.route) {
+            UpdateStatusBar(mainActivity, show = true)
+            OpenCodeWebScreen()
         }
         composable(MainActivityRoutes.Settings.route) {
             UpdateStatusBar(mainActivity,show = true)
