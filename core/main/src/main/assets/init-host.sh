@@ -1,9 +1,18 @@
 UBUNTU_DIR=$PREFIX/local/ubuntu
+ROOTFS_MARKER=$UBUNTU_DIR/.rootfs-ready
 
 mkdir -p "$UBUNTU_DIR"
 
-if [ -z "$(ls -A "$UBUNTU_DIR" | grep -vE '^(root|tmp)$')" ]; then
-    tar -xf "$PREFIX/files/ubuntu.tar.gz" -C "$UBUNTU_DIR"
+if [ ! -f "$ROOTFS_MARKER" ]; then
+    # Android applications cannot restore the root ownership recorded in the
+    # Ubuntu archive. Without these flags tar can then be denied while making
+    # its hard links (for example /usr/bin/perl and coreutils commands).
+    # Keep the marker absent on failure so the next launch retries extraction.
+    if ! tar --no-same-owner --no-same-permissions -xf "$PREFIX/files/ubuntu.tar.gz" -C "$UBUNTU_DIR"; then
+        echo "Ubuntu rootfs extraction failed; it will be retried on the next launch." >&2
+        exit 1
+    fi
+    touch "$ROOTFS_MARKER"
 fi
 
 [ ! -e "$PREFIX/local/bin/proot" ] && cp "$PREFIX/files/proot" "$PREFIX/local/bin"
